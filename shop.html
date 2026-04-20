@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SHOP</title>
+    <link rel="stylesheet" href=".vscode/aria noire/minimal.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.cs">
+
+<style>
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+         body {
+            display: flex;
+            background: linear-gradient(135deg, #45362c 0%, #2c1f15 100%);
+            color: #e7e2e2;
+            overflow-x: hidden;
+        }
+         /* Sidebar - Consistent across pages */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
+            color: white;
+            transition: width 0.4s ease;
+            position: fixed;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #374151;
+        }
+
+        .sidebar .logo img {
+            width: 80px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar ul li:hover {
+            background: #374151;
+            border-left-color: #4f46e5;
+            padding-left: 30px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .sidebar ul li img {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .sidebar ul li span {
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed ul li span {
+            opacity: 0;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #374151;
+            margin-top: auto;
+            font-size: 12px;
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        .toggle-btn:hover {
+            transform: rotate(90deg);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+
+        /* Main Content */
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+            transition: 0.4s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 80px;
+        }
+
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+       /* Responsive */
+@media(max-width:768px){
+    .sidebar{
+        position:fixed;
+        z-index:1000;
+    }
+}
+        /* Products Section */
+.products{
+    padding:60px 10%;
+    text-align:center;
+}
+
+.products h2{
+    margin-bottom:40px;
+    font-size:32px;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.product{
+    background:rgb(117, 117, 86);
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.product:hover{
+    transform:translateY(-10px);
+}
+
+.product img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.product h3{
+    margin:15px 0 10px;
+}
+
+.product p{
+    font-size:14px;
+    margin-bottom:15px;
+}
+
+.product button{
+    padding:10px 20px;
+    border:none;
+    background:#111;
+    color:white;
+    cursor:pointer;
+    border-radius:20px;
+    transition:0.3s;
+}
+
+.product button:hover{
+    background:#d4af37;
+    color:#111;
+}
+
+
+
+ </style>
+ </head>
+ <body>
+
+    <div class="sidebar" id="sidebar">
+            <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+             <img src="Icons\Icon.png" alt="icon"width="100"height="100">  
+        <div class="logo">ARIA NOIRE SCENTS</div>
+
+     <ul>
+             <a href="home.html"><li> <img src="Icons\Home.png" alt="icon"width="40"height="40"><span>Home</span></li></a></a>
+             <a href="shop.html"> <li> <img src="Icons\shop.png"alt="icon"width="40"height="40"><span>Shop</li></a></a>
+             <a href="Contact us.html"><li> <img src="Icons\contact.png" alt="icon"width="40"height="40"><span>Contact us</span></li></a></a> 
+             <a href="about us.html"><li> <img src="Icons\About.png" alt="icon"width="40"height="40"><span>About us</span></li></a></a>
+             
+             <img src="Icons\Icon.png" alt="icon"width="100"height="50"><p>&copy;2026 ARIA NOIRE SCENTS</p>
+            
+     </ul>
+    
+
+        <div class="toggle-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+               </div>
+                  </div>
+                  <div class="main-content" id="main">
+                    <section class="products">
+
+    <h2>Our Collection</h2>
+    <div class="product-grid">
+
+        <div class="product">
+            <img src="products\Ana Abiyedh Coral.jpg" alt="Perfume">
+            <h3>Ana Abiyedh Coral</h3>
+            <p>Bright fruity freshness with a feminine glow.Best for summer,sunny days and casual outings </p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now </button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Ana Abiyedh White.jpg" alt="Perfume">
+            <h3>Ana Abiyedh White</h3>
+            <p>Clean,Musky and effortlessly classy.Suitable for all seasons especially daytime and professinal settings</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now </button></a>
+        </div>
+
+        
+        <div class="product">
+            <img src="products\Aneesa by Ard Al Zafaran.jpg"alt="Perfume">
+            <h3>Aneesa by Ard Al Zafaran</h3>
+            <p>Soft,gracefull and beautifully feminine.Ideal for every day wear in spring and warm weather </p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Celeste.jpg" alt="Perfume">
+            <h3>Celeste</h3>
+            <p>Airy sweetness with a smooth dreamy finish.Perfect for warm weather, daytime and soft feminine moods.</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+        <div class="product">
+            <img src="products\Club De Nuit Maleka.jpg" alt="Perfume">
+            <h3>Club De Nuit Maleka</h3>
+            <p>Feminine power wrapped in sweetness amd confidence.Best for evenings,dates and cooler months  </p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+
+        <div class="product">
+            <img src="products\Dalal by Lattafa.jpg" alt="Perfume">
+            <h3>Dalal by Lattafa</h3>
+            <p>Sweet,creamy and comforting with a playful charm.Perfect for cool evenings and cozy seasons</p>
+           <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+
+        <div class="product">
+            <img src="products\Delilah.jpg"alt="Perfume">
+            <h3>Delilah</h3>
+            <p>Romantic florals with a soft elegant finish.Perfect for spring,daytime outings feminine occasions </p>
+             <a href="https://wa.me/254700919025"  
+            target="_blank" class="whatsapp">
+            <button>Buy Now\</button></a>
+        </div>
+
+
+        <div class="product">
+            <img src="products\Dubai Chocolate.jpg" alt="Perfume">
+            <h3>Dubai Chocolate</h3>
+            <p>Rich sweet and indulgent.Best worn during cold weather,nights and special occasions</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+            
+             
+        </div>
+
+
+        <div class="product">
+            <img src="products\Elysia Vanila.jpg" alt="Perfume">
+            <h3>Elysia Vanila</h3>
+            <p>Creamy vanilla wrapped in warmth and comfort.Perfect for cool weathers, evenings and layering seasons</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Floriana.jpg"alt="Perfume">
+            <h3>Floriana</h3>
+            <p>SOft florals blended with elegance and chams.Ideal for spring,daytime eleganceand all season femininity</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Jacque Ives Champ De Rose.jpg" alt="Perfume">
+            <h3>Jacque Ives Champ De Rose</h3>
+            <p>Fresh roses with a mordern softenss.Perfect for spring daytime and warm weather</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now </button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Jean Lowe Azzure.jpg"alt="Perfume">
+            <h3>Jean Lowe Azzure</h3>
+            <p>Fresh,smooth and refined.A clean luxary scent ideal for hot weather,daytime and all year office wear</p>
+           <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Kingdom Woman.jpg"alt="Perfume">
+            <h3>Kingdom Woman</h3>
+            <p>Confident,sensual and unforgattable.Best for evenings cooler weather and statement moments</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Mayar Pink.jpg" alt="Perfume">
+            <h3>Mayar Pink</h3>
+            <p>Juicy,playfull and feminine.Best for soring,summer and daytime outings</p>
+           <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src= "products\Minya Green.jpg"alt="Perfume">
+            <h3>Minya Green</h3>
+            <p>Fresh,vibrant and energizing.Ideal for hot weather and everyday wear</p>
+           <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Musammam.jpg" alt="Perfume">
+            <h3>Musammam</h3>
+            <p>Bold elegance with a warm,luxurious trail.Perfect for cooler weather and evening wear and autumn and rainy season </p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Qimmah.jpg" alt="Perfume">
+            <h3>Qimmah</h3>
+            <p>Rich,confident and beautifully bold.Best for evening wear and cooler weather.</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        <div class="product">
+            <img src="products\Ramz Gold.jpg" alt="Perfume">
+            <h3>Ramz Gold</h3>
+            <p>Warm golden sweetness with a seductive edge.Ideal for night wear and cooler season.</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+        
+        <div class="product">
+            <img src="products\Sensuous night.jpg" alt="Perfume">
+            <h3>Sensuous night</h3>
+            <p>Deep mystirious and alluring.Made for night wear,cooler weather and special evenings.</p>
+            <a href="https://wa.me/254700919025" 
+            target="_blank" class="whatsapp">
+            <button>Buy Now</button></a>
+        </div>
+
+       
+    </div>
+</section>
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("collapsed");
+            document.getElementById("main").classList.toggle("expanded");
+        }
+    </script>
+
+</body>
+</html>

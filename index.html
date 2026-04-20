@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARIA NOIRE SCENTS - Home</title>
+    
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            background: linear-gradient(135deg, #45362c 0%, #2c1f15 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar - Consistent across pages */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #111827 0%, #1f2937 100%);
+            color: white;
+            transition: width 0.4s ease;
+            position: fixed;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar .logo {
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #374151;
+        }
+
+        .sidebar .logo img {
+            width: 80px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 20px 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar ul li:hover {
+            background: #374151;
+            border-left-color: #4f46e5;
+            padding-left: 30px;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .sidebar ul li img {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .sidebar ul li span {
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar.collapsed ul li span {
+            opacity: 0;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #374151;
+            margin-top: auto;
+            font-size: 12px;
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            position: absolute;
+            top: 20px;
+            right: 10px;
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+
+        .toggle-btn:hover {
+            transform: rotate(90deg);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        }
+
+        /* Main Content - Consistent transitions */
+        .main-content {
+            margin-left: 250px;
+            padding: 40px;
+            width: calc(100% - 250px);
+            transition: all 0.4s ease;
+            min-height: 100vh;
+        }
+
+        .main-content.expanded {
+            margin-left: 80px;
+            width: calc(100% - 80px);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .hero-left {
+            flex: 1;
+            position: relative;
+        }
+
+        .hero-left img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ef4444, #f59e0b);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .hero-right {
+            flex: 1;
+        }
+
+        .hero-right h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #1e3a8a, #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .hero-right h3 {
+            font-size: 1.5rem;
+            color: #0ea5e9;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .hero-right p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 30px;
+            max-width: 400px;
+        }
+
+        /* Products Showcase */
+        .products-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .product-card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #0ea5e9);
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #1e3a8a, #1e40af);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #1e40af, #1e3a8a);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                width: 100% !important;
+                padding: 20px;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .hero-right h1 {
+                font-size: 2.5rem;
+            }
+
+            .products-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 15px;
+            }
+        }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    <div class="logo">
+        <img src="Icons/Icon.png" alt="ARIA NOIRE SCENTS">
+        <div>ARIA NOIRE SCENTS</div>
+    </div>
+    <ul>
+        <li><a href="home.html">
+            <img src="Icons/Home.png" alt="Home">
+            <span>Home</span>
+        </a></li>
+        <li><a href="shop.html">
+            <img src="Icons/shop.png" alt="Shop">
+            <span>Shop</span>
+        </a></li>
+        <li><a href="Contact us.html">
+            <img src="Icons/contact.png" alt="Contact">
+            <span>Contact us</span>
+        </a></li>
+        <li><a href="about us.html">
+            <img src="Icons/About.png" alt="About">
+            <span>About us</span>
+        </a></li>
+    </ul>
+    <div class="sidebar-footer">
+        <img src="Icons/Icon.png" alt="Logo" style="width: 40px; height: 20px; margin-bottom: 5px;">
+        <p>&copy; 2026 ARIA NOIRE SCENTS</p>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="main">
+    <section class="hero">
+        <div class="hero-left">
+            <img src="C:\Users\Manu\Documents\IMG_20260331_082405.jpg" alt="Featured Fragrance" onerror="this.src='Icons/Icon.png'">
+
+        </div>
+        <div class="hero-right">
+            <h1>Aria Noire Scents</h1>
+            <h3>Elegance in Every Note</h3>
+            <p>
+                Scent is a signature.Make yours unforgettable.
+                We curatefragrances for those who understand that precence is everything
+            </p>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="product-card">
+            <img src="products/Club De Nuit Maleka.jpg" alt="Club De Nuit Maleka" onerror="this.src='Icons/Icon.png'">
+            <h4>Club De Nuit Maleka</h4>
+            <button class="btn" onclick="window.location.href='shop.html'">Shop Now</button>
+        </div>
+        <div class="product-card">
+            <img src="products/Dalal by Lattafa.jpg" alt="Dalal by Lattafa" onerror="this.src='Icons/Icon.png'">
+            <h4>Dalal by Lattafa</h4>
+            <button class="btn" onclick="window.location.href='shop.html'">Shop Now</button>
+        </div>
+    </section>
+</div>
+
+<script>
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const main = document.getElementById('main');
+    sidebar.classList.toggle('collapsed');
+    main.classList.toggle('expanded');
+}
+
+// Mobile menu toggle (add hamburger in topbar if needed)
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth scroll or other effects
+});
+</script>
+
+</body>
+</html>
